@@ -23,7 +23,7 @@ class PlaceServiceImplTest {
     private PlaceRequest requete(String numero, TypePlace type, StatutPlace statut) {
         PlaceRequest request = new PlaceRequest();
         request.setNumero(numero);
-        request.setZone("A");
+        request.setZone("TEST");
         request.setType(type);
         request.setStatut(statut);
         return request;
@@ -41,7 +41,7 @@ class PlaceServiceImplTest {
 
         assertThat(response.getId()).isNotNull();
         assertThat(response.getNumero()).isEqualTo(numero);
-        assertThat(response.getZone()).isEqualTo("A");
+        assertThat(response.getZone()).isEqualTo("TEST");
         assertThat(response.getType()).isEqualTo(TypePlace.VIP);
         assertThat(response.getStatut()).isEqualTo(StatutPlace.LIBRE);
     }

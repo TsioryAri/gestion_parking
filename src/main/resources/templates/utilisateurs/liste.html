@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Utilisateurs</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<div class="container">
+    <h1>Utilisateurs</h1>
+    <div class="alert-success" th:if="${succesMessage}" th:text="${succesMessage}"></div>
+    <div class="actions-bar">
+        <a class="btn" th:href="@{/utilisateurs/nouveau}">+ Nouvel utilisateur</a>
+    </div>
+    <table>
+        <thead>
+        <tr><th>Nom</th><th>Email</th><th>Téléphone</th><th>Type</th><th>Créé le</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${utilisateurs}">
+            <td data-label="Nom" th:text="${u.nom}">Nom</td>
+            <td data-label="Email" th:text="${u.email} ?: '-'">email</td>
+            <td data-label="Téléphone" th:text="${u.telephone} ?: '-'">tel</td>
+            <td data-label="Type"><span th:class="'badge badge-' + ${#strings.toLowerCase(u.typeUtilisateur)}" th:text="${u.typeUtilisateur}">STANDARD</span></td>
+            <td data-label="Créé le" th:text="${u.dateCreation != null ? #temporals.format(u.dateCreation, 'dd/MM/yyyy HH:mm') : '-'}">date</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="empty-state" th:if="${utilisateurs.isEmpty()}"><p>Aucun utilisateur pour le moment.</p></div>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

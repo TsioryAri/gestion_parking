@@ -1,0 +1,12 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="nav">
+    <nav class="navbar">
+        <a class="navbar-brand" th:href="@{/plan}"><span class="dot"></span> Gestion Parking</a>
+        <div class="navbar-links">
+            <a class="nav-link" th:href="@{/plan}">Plan du parking</a>
+            <a class="nav-link" th:href="@{/places/disponibles}">Places disponibles</a>
+            <a class="nav-link" th:href="@{/places}">Places</a>
+            <a class="nav-link" th:href="@{/utilisateurs}">Utilisateurs</a>
+            <a class="nav-link" th:href="@{/vehicules}">Véhicules</a>
+        </div>
+    </nav>
+</div>

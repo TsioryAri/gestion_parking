@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plan du parking</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<div class="container">
+    <h1>Plan du parking</h1>
+    <p class="subtitle">Clique sur un statut pour mettre en évidence les places correspondantes.</p>
+
+    <div class="legend">
+        <div class="legend-item" data-statut="LIBRE"><span class="legend-dot dot-libre"></span>Libre <span class="legend-count" th:text="${libres}">0</span></div>
+        <div class="legend-item" data-statut="RESERVEE"><span class="legend-dot dot-reservee"></span>Réservée <span class="legend-count" th:text="${reservees}">0</span></div>
+        <div class="legend-item" data-statut="OCCUPEE"><span class="legend-dot dot-occupee"></span>Occupée <span class="legend-count" th:text="${occupees}">0</span></div>
+        <div class="legend-item" data-statut="HORS_SERVICE"><span class="legend-dot dot-hors_service"></span>Hors service <span class="legend-count" th:text="${horsService}">0</span></div>
+    </div>
+
+    <div class="empty-state" th:if="${plan.isEmpty()}">
+        <p>Aucune place pour le moment. <a th:href="@{/places/nouvelle}">Créer une place</a></p>
+    </div>
+
+    <div th:each="zone : ${plan}">
+        <h2 th:text="'Zone ' + ${zone.key}">Zone A</h2>
+        <div class="parking-grid">
+            <div th:each="p : ${zone.value}"
+                 th:class="'place place-' + ${#strings.toLowerCase(p.statut)}"
+                 th:attr="data-statut=${p.statut}"
+                 th:title="${p.numero} + ' · ' + ${p.type} + ' · ' + ${p.statut}">
+                <span th:text="${p.numero}">A-01</span>
+                <small th:text="${p.type}">STANDARD</small>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/plan.js}"></script>
+</body>
+</html>

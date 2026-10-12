@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Véhicules</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<div class="container">
+    <h1>Véhicules</h1>
+    <div class="alert-success" th:if="${succesMessage}" th:text="${succesMessage}"></div>
+    <div class="actions-bar">
+        <a class="btn" th:href="@{/vehicules/nouveau}">+ Nouveau véhicule</a>
+    </div>
+    <table>
+        <thead>
+        <tr><th>Immatriculation</th><th>Marque</th><th>Modèle</th><th>Type</th><th>Propriétaire</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="v : ${vehicules}">
+            <td data-label="Immatriculation" th:text="${v.immatriculation}">AB-123-CD</td>
+            <td data-label="Marque" th:text="${v.marque} ?: '-'">marque</td>
+            <td data-label="Modèle" th:text="${v.modele} ?: '-'">modele</td>
+            <td data-label="Type" th:text="${v.typeVehicule}">VOITURE</td>
+            <td data-label="Propriétaire" th:text="${v.utilisateurNom}">proprietaire</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="empty-state" th:if="${vehicules.isEmpty()}"><p>Aucun véhicule pour le moment.</p></div>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

@@ -12,7 +12,11 @@ import com.example.parking.service.PlaceService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PlaceServiceImpl implements PlaceService {
@@ -39,7 +43,7 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     @Transactional(readOnly = true)
     public List<PlaceResponse> listerPlaces() {
-        return placeRepository.findAll().stream()
+        return placeRepository.findAllByOrderByZoneAscNumeroAsc().stream()
                 .map(placeMapper::toResponse)
                 .toList();
     }
@@ -47,7 +51,7 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     @Transactional(readOnly = true)
     public List<PlaceResponse> listerPlacesDisponibles() {
-        return placeRepository.findByStatut(StatutPlace.LIBRE).stream()
+        return placeRepository.findByStatutOrderByZoneAscNumeroAsc(StatutPlace.LIBRE).stream()
                 .map(placeMapper::toResponse)
                 .toList();
     }
@@ -58,5 +62,26 @@ public class PlaceServiceImpl implements PlaceService {
         Place place = placeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Place introuvable avec l'id " + id));
         return placeMapper.toResponse(place);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, List<PlaceResponse>> obtenirPlanParZone() {
+        Map<String, List<PlaceResponse>> plan = new LinkedHashMap<>();
+        for (Place place : placeRepository.findAllByOrderByZoneAscNumeroAsc()) {
+            plan.computeIfAbsent(place.getZone(), zone -> new ArrayList<>())
+                    .add(placeMapper.toResponse(place));
+        }
+        return plan;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<StatutPlace, Long> compterParStatut() {
+        Map<StatutPlace, Long> compteurs = new EnumMap<>(StatutPlace.class);
+        for (StatutPlace statut : StatutPlace.values()) {
+            compteurs.put(statut, placeRepository.countByStatut(statut));
+        }
+        return compteurs;
     }
 }

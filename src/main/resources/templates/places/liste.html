@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Places</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<div class="container">
+    <h1>Places</h1>
+    <div class="alert-success" th:if="${succesMessage}" th:text="${succesMessage}"></div>
+    <div class="actions-bar">
+        <a class="btn" th:href="@{/places/nouvelle}">+ Nouvelle place</a>
+        <a class="btn btn-secondary" th:href="@{/places/disponibles}">Places disponibles</a>
+    </div>
+    <table>
+        <thead>
+        <tr><th>Numéro</th><th>Zone</th><th>Type</th><th>Statut</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${places}">
+            <td data-label="Numéro" th:text="${p.numero}">A-01</td>
+            <td data-label="Zone" th:text="${p.zone}">A</td>
+            <td data-label="Type"><span th:class="'badge badge-' + ${#strings.toLowerCase(p.type)}" th:text="${p.type}">STANDARD</span></td>
+            <td data-label="Statut"><span th:class="'badge badge-' + ${#strings.toLowerCase(p.statut)}" th:text="${p.statut}">LIBRE</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="empty-state" th:if="${places.isEmpty()}"><p>Aucune place pour le moment.</p></div>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

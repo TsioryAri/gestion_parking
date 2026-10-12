@@ -20,6 +20,6 @@ public class VehiculeRequest {
     // Optionnel : VOITURE par défaut
     private TypeVehicule typeVehicule;
 
-    @NotNull(message = "Le propriétaire (utilisateurId) est obligatoire")
+    @NotNull(message = "Le propriétaire est obligatoire")
     private Long utilisateurId;
 }

@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface PlaceRepository extends JpaRepository<Place, Long> {
     boolean existsByNumero(String numero);
-    List<Place> findByStatut(StatutPlace statut);
+    List<Place> findAllByOrderByZoneAscNumeroAsc();
+    List<Place> findByStatutOrderByZoneAscNumeroAsc(StatutPlace statut);
+    long countByStatut(StatutPlace statut);
 }
